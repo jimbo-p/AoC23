@@ -183,22 +183,12 @@ func Question2(mazeLoop [][]int) {
 	// So first, take solved maze and ignore "-", remove those from the solved maze solution
 	// Then go through maze and look for the L7 or 7L and  FJ and JF. Replace one with | and the other with -
 	// Finally, need ot understand what shape S is. Just manuualy do it
-	maze, startVal := ReadData()
+	maze, _ := ReadData()
 	for _, v := range maze {
 		fmt.Println(v)
 	}
-	fmt.Println(startVal)
 
-	//Manual Maze Intervention
 	MazeLoopNoDash := [][]int{}
-	// for i := range maze {
-	// 	for j := range maze[i] {
-	// 		if string(maze[i][j]) == "S" {
-	// 			maze[i] = maze[i][:j] + "F" + maze[i][(j+1):]
-	// 			MazeLoopNoDash = append(mazeLoop, []int{i, j})
-	// 		}
-	// 	}
-	// }
 
 	// remove "-" from mazeLoop
 	for _, v := range mazeLoop {
@@ -207,8 +197,11 @@ func Question2(mazeLoop [][]int) {
 		}
 	}
 
-	// Replace 7F, F7, JL, LJ
+	// Replace 7F, F7, JL, LJ, SJ, JS
 	for i := range MazeLoopNoDash {
+		if i == len(MazeLoopNoDash)-1 {
+			break
+		}
 		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "7" {
 			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "F" {
 				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "-" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
@@ -230,7 +223,21 @@ func Question2(mazeLoop [][]int) {
 			}
 		}
 
+		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "J" {
+			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "S" {
+				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "-" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
+				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
+			}
+		}
+
 		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "L" {
+			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "J" {
+				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "-" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
+				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
+			}
+		}
+
+		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "S" {
 			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "J" {
 				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "-" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
 				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
@@ -238,8 +245,11 @@ func Question2(mazeLoop [][]int) {
 		}
 	}
 
-	// Replace L7, 7L, FJ, JF
+	// Replace L7, 7L, FJ, JF, S7, 7S
 	for i := range MazeLoopNoDash {
+		if i == len(MazeLoopNoDash)-1 {
+			break
+		}
 		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "L" {
 			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "7" {
 				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "|" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
@@ -253,6 +263,21 @@ func Question2(mazeLoop [][]int) {
 				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
 			}
 		}
+
+		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "S" {
+			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "7" {
+				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "|" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
+				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
+			}
+		}
+
+		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "7" {
+			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "S" {
+				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "|" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
+				maze[MazeLoopNoDash[i+1][0]] = maze[MazeLoopNoDash[i+1][0]][:MazeLoopNoDash[i+1][1]] + "-" + maze[MazeLoopNoDash[i+1][0]][(MazeLoopNoDash[i+1][1]+1):]
+			}
+		}
+
 		if string(maze[MazeLoopNoDash[i][0]][MazeLoopNoDash[i][1]]) == "F" {
 			if string(maze[MazeLoopNoDash[i+1][0]][MazeLoopNoDash[i+1][1]]) == "J" {
 				maze[MazeLoopNoDash[i][0]] = maze[MazeLoopNoDash[i][0]][:MazeLoopNoDash[i][1]] + "|" + maze[MazeLoopNoDash[i][0]][(MazeLoopNoDash[i][1]+1):]
@@ -299,7 +324,7 @@ func Solver2(maze []string, solvedPuzzle [][]int) int {
 			}
 
 			if left%2 != 0 {
-				fmt.Println(row, col, string(maze[row][col]))
+				fmt.Println(row, col, left, string(maze[row][col]))
 				total++
 			}
 		}
